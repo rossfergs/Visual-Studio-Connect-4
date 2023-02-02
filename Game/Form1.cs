@@ -6,5 +6,10 @@ namespace Game
         {
             InitializeComponent();
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            textBox1.Text = "Hello world";
+        }
     }
 }
