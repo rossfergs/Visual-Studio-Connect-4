@@ -1,51 +1,47 @@
-namespace Game
+namespace Connect4
 {
     public partial class Form1 : Form
     {
+
+        Button[,] btn = new Button[8,7];
+            
         public Form1()
         {
             InitializeComponent();
-            lbl_name.Hide();
+
+            for (int i = 1; i < 8; i++)
+            {
+                for (int j = 1; j < 7; j++)
+                {
+                    btn[i, j] = new Button();
+                    btn[i, j].SetBounds(40 + (40 * i), 40 + (40 * j), 35, 35);
+                    btn[i, j].BackColor = Color.DimGray;
+                    btn[i, j].Text = Convert.ToString(' ');
+                    btn[i, j].Click += new EventHandler(this.btnEvent_Handler);
+                    Controls.Add(btn[i, j]);
+                }
+            }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        void btnEvent_Handler(object sender, EventArgs e)
         {
+            ((Button)sender).BackColor = Color.Blue;
+
+            placePiece()
         }
 
-        private void btn_Quit_Click(object sender, EventArgs e)
+        void placePiece(int input, Button[,] board, Color player)
         {
-            Close();
-        }
 
-        private void btn_username_TextChanged(object sender, EventArgs e)
-        {
-            lbl_name.Text = "You are signed in as: " + txt_username.Text;
-        }
+            int counter = 1;
 
-        private void btn_Start_Click(object sender, EventArgs e)
-        {
-            Form game = new GameBoard();
-            game.Show();
-            Hide();
-        }
+            while (board[input, counter].BackColor == Color.DimGray)
+            {
+                counter += 1;
+            }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            lbl_name.Show();
-            txt_username.Hide();
-            btn_Apply.Hide();
-        }
+            board[input, counter].BackColor = player;
 
-        private void btn_Tut_Click(object sender, EventArgs e)
-        {
-            Form T = new HowToPlay();
-            T.Show();
-            Hide();
-        }
-
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }
