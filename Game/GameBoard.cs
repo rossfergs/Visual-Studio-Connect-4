@@ -55,17 +55,36 @@ namespace Game
 
         void checkForWinner()
         {
+            DialogResult d;
             for (int rows = 7; rows > 0; rows--)
             {
                 for (int columns = 6; columns > 0; columns--)
                 {
                     if (btn[rows, columns].BackColor == Color.Blue)
                     {
-                        DialogResult d;
-                        d = MessageBox.Show("Winner!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (btn[rows - 1, columns].BackColor == Color.Blue)
+                        {
+                            if (btn[rows - 2, columns].BackColor == Color.Blue)
+                            {
+                                if (btn[rows - 3, columns].BackColor == Color.Blue)
+                                {
+                                    d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                        }
+                        else if (btn[rows, columns - 1].BackColor == Color.Blue)
+                        {
+                            if (btn[rows, columns - 2].BackColor == Color.Blue)
+                            {
+                                if (btn[rows, columns - 3].BackColor == Color.Blue)
+                                {
+                                    d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                        }
                     }
-
                 }
+
             }
         }
     }
