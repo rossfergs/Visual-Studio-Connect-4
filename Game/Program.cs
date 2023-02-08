@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 namespace Game
 {
     internal static class Program
@@ -16,6 +17,8 @@ namespace Game
         }
     }
 =======
+=======
+>>>>>>> parent of bd7087b (Added WIP Game files)
 namespace Game
 {
     internal static class Program
@@ -32,5 +35,8 @@ namespace Game
             Application.Run(new Form1());
         }
     }
+<<<<<<< HEAD
+>>>>>>> parent of bd7087b (Added WIP Game files)
+=======
 >>>>>>> parent of bd7087b (Added WIP Game files)
 }

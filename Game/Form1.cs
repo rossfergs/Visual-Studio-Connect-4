@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 using System;
 
 namespace Connect4
@@ -80,6 +81,8 @@ namespace Connect4
 =======
 =======
 >>>>>>> parent of bd7087b (Added WIP Game files)
+=======
+>>>>>>> parent of bd7087b (Added WIP Game files)
 namespace Game
 {
     public partial class Form1 : Form
@@ -87,15 +90,60 @@ namespace Game
         public Form1()
         {
             InitializeComponent();
+<<<<<<< HEAD
+=======
+            lbl_name.Hide();
+>>>>>>> parent of bd7087b (Added WIP Game files)
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             textBox1.Text = "Hello world";
         }
     }
 <<<<<<< HEAD
 >>>>>>> parent of bd7087b (Added WIP Game files)
 =======
+>>>>>>> parent of bd7087b (Added WIP Game files)
+=======
+        }
+
+        private void btn_Quit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void btn_username_TextChanged(object sender, EventArgs e)
+        {
+            lbl_name.Text = "You are signed in as: " + txt_username.Text;
+        }
+
+        private void btn_Start_Click(object sender, EventArgs e)
+        {
+            Form game = new GameBoard();
+            game.Show();
+            Hide();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            lbl_name.Show();
+            txt_username.Hide();
+            btn_Apply.Hide();
+        }
+
+        private void btn_Tut_Click(object sender, EventArgs e)
+        {
+            Form T = new HowToPlay();
+            T.Show();
+            Hide();
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+    }
 >>>>>>> parent of bd7087b (Added WIP Game files)
 }
