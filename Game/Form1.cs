@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 using System;
 
 namespace Connect4
@@ -77,6 +78,8 @@ namespace Connect4
         }
     }
 =======
+=======
+>>>>>>> parent of bd7087b (Added WIP Game files)
 namespace Game
 {
     public partial class Form1 : Form
@@ -127,5 +130,8 @@ namespace Game
             Close();
         }
     }
+<<<<<<< HEAD
+>>>>>>> parent of bd7087b (Added WIP Game files)
+=======
 >>>>>>> parent of bd7087b (Added WIP Game files)
 }
