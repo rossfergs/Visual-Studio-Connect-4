@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+Game/Connect4.csproj.user
+Game/Connect4.csproj.user
+*.cs

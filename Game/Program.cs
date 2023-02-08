@@ -1,4 +1,4 @@
-namespace Connect4
+namespace Game
 {
     internal static class Program
     {
