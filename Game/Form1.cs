@@ -47,5 +47,10 @@ namespace Game
         {
             Close();
         }
+
+        private void lbl_name_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

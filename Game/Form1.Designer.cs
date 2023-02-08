@@ -111,6 +111,7 @@
             this.lbl_name.TabIndex = 6;
             this.lbl_name.Text = "lbl";
             this.lbl_name.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbl_name.Click += new System.EventHandler(this.lbl_name_Click);
             // 
             // menuStrip1
             // 
