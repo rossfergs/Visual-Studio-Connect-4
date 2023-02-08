@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,12 +15,13 @@ namespace Game
     {
         Button[,] btn = new Button[8, 7];
         Color player = Color.Red;
+        bool hasWonYet = false;
         public GameBoard()
         {
             InitializeComponent();
-            for (int i = 1; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
-                for (int j = 1; j < 7; j++)
+                for (int j = 0; j < 7; j++)
                 {
                     btn[i, j] = new Button();
                     btn[i, j].SetBounds(40 + (40 * i), 40 + (40 * j), 35, 35);
@@ -34,6 +36,7 @@ namespace Game
         void btnEvent_Handler(object sender, EventArgs e)
         {
             ((Button)sender).BackColor = Color.Blue;
+            checkForWinner();
         }
 
         void placePiece(int input, Button[,] board, Color player)
@@ -48,6 +51,22 @@ namespace Game
 
             board[input, counter].BackColor = player;
 
+        }
+
+        void checkForWinner()
+        {
+            for (int rows = 7; rows > 0; rows--)
+            {
+                for (int columns = 6; columns > 0; columns--)
+                {
+                    if (btn[rows, columns].BackColor == Color.Blue)
+                    {
+                        DialogResult d;
+                        d = MessageBox.Show("Winner!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                }
+            }
         }
     }
 }
