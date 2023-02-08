@@ -41,51 +41,83 @@ namespace Game
 
         void placePiece(int input, Button[,] board, Color player)
         {
-
-            int counter = 1;
-
-            while (board[input, counter].BackColor == Color.DimGray)
+            for (int rows = 7; rows >= 0; rows--)
             {
-                counter += 1;
+                if (input > rows) continue;
+                int counter = 0;
+                while (counter < 7 && btn[counter, input].BackColor != Color.Blue)
+                {
+                    counter += 1;
+                }
+
+                if (counter < 7 && btn[7, input].BackColor == Color.Blue)
+                {
+                    btn[counter, input].BackColor = player;
+                    break;
+                }
             }
-
-            board[input, counter].BackColor = player;
-
         }
 
         void checkForWinner()
         {
             DialogResult d;
-            for (int rows = 7; rows > 0; rows--)
+            for (int rows = 7; rows >= 0; rows--)
             {
-                for (int columns = 6; columns > 0; columns--)
+                for (int columns = 6; columns >= 0; columns--)
                 {
                     if (btn[rows, columns].BackColor == Color.Blue)
                     {
-                        if (btn[rows - 1, columns].BackColor == Color.Blue)
+                        if (rows >= 0 && rows < btn.GetLength(0) && columns >= 0 && columns < btn.GetLength(1))
                         {
-                            if (btn[rows - 2, columns].BackColor == Color.Blue)
+                            // Horizontal check for blue winner;
+                            if (rows > 0 && btn[rows - 1, columns].BackColor == Color.Blue)
                             {
-                                if (btn[rows - 3, columns].BackColor == Color.Blue)
+                                if (rows > 1 && btn[rows - 2, columns].BackColor == Color.Blue)
                                 {
-                                    d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    if (rows > 2 && btn[rows - 3, columns].BackColor == Color.Blue)
+                                    {
+                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
                                 }
                             }
-                        }
-                        else if (btn[rows, columns - 1].BackColor == Color.Blue)
-                        {
-                            if (btn[rows, columns - 2].BackColor == Color.Blue)
+                            // Vertical check for blue winner;
+                            else if (columns > 2 && btn[rows, columns - 1].BackColor == Color.Blue)
                             {
-                                if (btn[rows, columns - 3].BackColor == Color.Blue)
+                                if (btn[rows, columns - 2].BackColor == Color.Blue)
                                 {
-                                    d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    if (btn[rows, columns - 3].BackColor == Color.Blue)
+                                    {
+                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
+                                }
+                            }
+                            // Left-to-right diagonal check for blue winner;
+                            else if (rows > 2 && columns < 4 && btn[rows - 1, columns + 1].BackColor == Color.Blue)
+                            {
+                                if (btn[rows - 2, columns + 2].BackColor == Color.Blue)
+                                {
+                                    if (btn[rows - 3, columns + 3].BackColor == Color.Blue)
+                                    {
+                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
+                                }
+                            }
+                            // Right-to-left diagonal check for blue winner;
+                            else if (rows > 2 && columns > 2 && btn[rows - 1, columns - 1].BackColor == Color.Blue)
+                            {
+                                if (btn[rows - 2, columns - 2].BackColor == Color.Blue)
+                                {
+                                    if (btn[rows - 3, columns - 3].BackColor == Color.Blue)
+                                    {
+                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
             }
         }
     }
+
 }
