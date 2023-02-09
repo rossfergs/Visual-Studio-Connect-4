@@ -1,6 +1,6 @@
 ﻿namespace Game
 {
-    partial class Form1
+    partial class Menu
     {
         /// <summary>
         ///  Required designer variable.

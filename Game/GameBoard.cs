@@ -15,7 +15,6 @@ namespace Game
     {
         Button[,] btn = new Button[8, 7];
         Color player = Color.Red;
-        bool hasWonYet = false;
         public GameBoard()
         {
             InitializeComponent();
@@ -35,81 +34,146 @@ namespace Game
 
         void btnEvent_Handler(object sender, EventArgs e)
         {
-            ((Button)sender).BackColor = Color.Blue;
+            placePiece(btn, ((Button)sender), player);
+            if (player == Color.Red)
+            {
+                player = Color.Yellow;
+            }
+            else
+            {
+                player = Color.Red;
+            }
             checkForWinner();
         }
 
-        void placePiece(int input, Button[,] board, Color player)
+        void placePiece(Button[,] btn, Button input, Color player)
         {
-            for (int rows = 7; rows >= 0; rows--)
+            movePieces(btn);
+            if (input.BackColor == Color.DimGray)
             {
-                if (input > rows) continue;
-                int counter = 0;
-                while (counter < 7 && btn[counter, input].BackColor != Color.Blue)
-                {
-                    counter += 1;
-                }
-
-                if (counter < 7 && btn[7, input].BackColor == Color.Blue)
-                {
-                    btn[counter, input].BackColor = player;
-                    break;
-                }
+                input.BackColor = player;
             }
         }
+
+        void movePieces(Button[,] btn)
+        {
+
+            int width = btn.GetLength(0);
+            int height = btn.GetLength(1);
+
+            for (int i = 1; i < width; i++)
+            {
+                for (int j = 1; j < height - 1; j++)
+                {
+                    if (btn[i, j].BackColor != Color.DimGray && btn[i, j + 1].BackColor == Color.DimGray)
+                    {
+                        btn[i, j + 1].BackColor = btn[i, j].BackColor;
+                        btn[i, j].BackColor = Color.DimGray;
+
+                    }
+                }
+            }
+
+        }
+
 
         void checkForWinner()
         {
             DialogResult d;
+            DialogResult r;
             for (int rows = 7; rows >= 0; rows--)
             {
                 for (int columns = 6; columns >= 0; columns--)
                 {
-                    if (btn[rows, columns].BackColor == Color.Blue)
+                    if (btn[rows, columns].BackColor == Color.Yellow)
                     {
                         if (rows >= 0 && rows < btn.GetLength(0) && columns >= 0 && columns < btn.GetLength(1))
                         {
-                            // Horizontal check for blue winner;
-                            if (rows > 0 && btn[rows - 1, columns].BackColor == Color.Blue)
+                            // Horizontal check for Yellow winner;
+                            if (rows > 0 && btn[rows - 1, columns].BackColor == Color.Yellow)
                             {
-                                if (rows > 1 && btn[rows - 2, columns].BackColor == Color.Blue)
+                                if (rows > 1 && btn[rows - 2, columns].BackColor == Color.Yellow)
                                 {
-                                    if (rows > 2 && btn[rows - 3, columns].BackColor == Color.Blue)
+                                    if (rows > 2 && btn[rows - 3, columns].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
                                     }
                                 }
                             }
-                            // Vertical check for blue winner;
-                            else if (columns > 2 && btn[rows, columns - 1].BackColor == Color.Blue)
+                            // Vertical check for Yellow winner;
+                            else if (columns > 2 && btn[rows, columns - 1].BackColor == Color.Yellow)
                             {
-                                if (btn[rows, columns - 2].BackColor == Color.Blue)
+                                if (btn[rows, columns - 2].BackColor == Color.Yellow)
                                 {
-                                    if (btn[rows, columns - 3].BackColor == Color.Blue)
+                                    if (btn[rows, columns - 3].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
                                     }
                                 }
                             }
-                            // Left-to-right diagonal check for blue winner;
-                            else if (rows > 2 && columns < 4 && btn[rows - 1, columns + 1].BackColor == Color.Blue)
+                            // Left-to-right diagonal check for Yellow winner;
+                            else if (rows > 2 && columns < 4 && btn[rows - 1, columns + 1].BackColor == Color.Yellow)
                             {
-                                if (btn[rows - 2, columns + 2].BackColor == Color.Blue)
+                                if (btn[rows - 2, columns + 2].BackColor == Color.Yellow)
                                 {
-                                    if (btn[rows - 3, columns + 3].BackColor == Color.Blue)
+                                    if (btn[rows - 3, columns + 3].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
                                     }
                                 }
                             }
-                            // Right-to-left diagonal check for blue winner;
-                            else if (rows > 2 && columns > 2 && btn[rows - 1, columns - 1].BackColor == Color.Blue)
+                            // Right-to-left diagonal check for Yellow winner;
+                            else if (rows > 2 && columns > 2 && btn[rows - 1, columns - 1].BackColor == Color.Yellow)
                             {
-                                if (btn[rows - 2, columns - 2].BackColor == Color.Blue)
+                                if (btn[rows - 2, columns - 2].BackColor == Color.Yellow)
                                 {
-                                    if (btn[rows - 3, columns - 3].BackColor == Color.Blue)
+                                    if (btn[rows - 3, columns - 3].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Blue wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
                                     }
                                 }
                             }
