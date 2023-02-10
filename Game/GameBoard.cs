@@ -13,11 +13,18 @@ namespace Game
 {
     public partial class GameBoard : Form
     {
+        Menu m = new Menu();
+        
         Button[,] btn = new Button[8, 7];
         Color player = Color.Red;
+        int P1Counter = 0;
+        int P2Counter = 0;
+        String winner = null;
         public GameBoard()
         {
             InitializeComponent();
+            lblP1.Hide();
+            lblP2.Hide();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 7; j++)
@@ -33,15 +40,27 @@ namespace Game
         }
 
         void btnEvent_Handler(object sender, EventArgs e)
-        {
+        {          
             placePiece(btn, ((Button)sender), player);
             if (player == Color.Red)
             {
+                lblP2.Hide();
                 player = Color.Yellow;
+                P1Counter++;
+                lblP1.Text = "Red score: " + P1Counter;
+                lblP1.BackColor = Color.Red;
+                lblP1.ForeColor = Color.White;
+                lblP1.Show();
             }
             else
             {
+                lblP1.Hide();
                 player = Color.Red;
+                P2Counter++;
+                lblP2.Text = "Yellow score " + P2Counter;
+                lblP2.BackColor = Color.Yellow;
+                lblP2.ForeColor = Color.Black;
+                lblP2.Show();
             }
             checkForWinner();
         }
@@ -96,7 +115,7 @@ namespace Game
                                 {
                                     if (rows > 2 && btn[rows - 3, columns].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins with Score: " + P2Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (r == DialogResult.Yes)
                                         {
@@ -118,7 +137,7 @@ namespace Game
                                 {
                                     if (btn[rows, columns - 3].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins with Score: " + P2Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (r == DialogResult.Yes)
                                         {
@@ -140,7 +159,7 @@ namespace Game
                                 {
                                     if (btn[rows - 3, columns + 3].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins with Score: " + P2Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (r == DialogResult.Yes)
                                         {
@@ -162,7 +181,102 @@ namespace Game
                                 {
                                     if (btn[rows - 3, columns - 3].BackColor == Color.Yellow)
                                     {
-                                        d = MessageBox.Show("Yellow wins!", "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        d = MessageBox.Show("Yellow wins with Score: " + P2Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //Red checks
+                    else if (btn[rows, columns].BackColor == Color.Red)
+                    {
+                        if (rows >= 0 && rows < btn.GetLength(0) && columns >= 0 && columns < btn.GetLength(1))
+                        {
+                            // Horizontal check for Yellow winner;
+                            if (rows > 0 && btn[rows - 1, columns].BackColor == Color.Red)
+                            {
+                                if (rows > 1 && btn[rows - 2, columns].BackColor == Color.Red)
+                                {
+                                    if (rows > 2 && btn[rows - 3, columns].BackColor == Color.Red)
+                                    {
+                                        d = MessageBox.Show("Red wins with Score: " + P1Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
+                                    }
+                                }
+                            }
+                            // Vertical check for Red winner;
+                            else if (columns > 2 && btn[rows, columns - 1].BackColor == Color.Red)
+                            {
+                                if (btn[rows, columns - 2].BackColor == Color.Red)
+                                {
+                                    if (btn[rows, columns - 3].BackColor == Color.Red)
+                                    {
+                                        d = MessageBox.Show("Red wins with Score: " + P1Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
+                                    }
+                                }
+                            }
+                            // Left-to-right diagonal check for Red winner;
+                            else if (rows > 2 && columns < 4 && btn[rows - 1, columns + 1].BackColor == Color.Red)
+                            {
+                                if (btn[rows - 2, columns + 2].BackColor == Color.Red)
+                                {
+                                    if (btn[rows - 3, columns + 3].BackColor == Color.Red)
+                                    {
+                                        d = MessageBox.Show("Red wins with Score: " + P1Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (r == DialogResult.Yes)
+                                        {
+                                            this.Close();
+                                            GameBoard t = new GameBoard();
+                                            t.Show();
+                                        }
+                                        if (r == DialogResult.No)
+                                        {
+                                            Close();
+                                        }
+                                    }
+                                }
+                            }
+                            // Right-to-left diagonal check for Red winner;
+                            else if (rows > 2 && columns > 2 && btn[rows - 1, columns - 1].BackColor == Color.Red)
+                            {
+                                if (btn[rows - 2, columns - 2].BackColor == Color.Red)
+                                {
+                                    if (btn[rows - 3, columns - 3].BackColor == Color.Red)
+                                    {
+                                        d = MessageBox.Show("Red wins with Score: " + P1Counter, "Congratulations!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         r = MessageBox.Show("Do you wish to play again?", "Play again?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (r == DialogResult.Yes)
                                         {

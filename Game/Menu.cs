@@ -2,6 +2,7 @@ namespace Game
 {
     public partial class Menu : Form
     {
+        public Label lblName { get; set; }
         public Menu()
         {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace Game
 
         private void btn_Start_Click(object sender, EventArgs e)
         {
+            lblName = lbl_name;
             Form game = new GameBoard();
             game.Show();
             Hide();
@@ -31,6 +33,7 @@ namespace Game
 
         private void button4_Click(object sender, EventArgs e)
         {
+
             lbl_name.Show();
             txt_username.Hide();
             btn_Apply.Hide();
