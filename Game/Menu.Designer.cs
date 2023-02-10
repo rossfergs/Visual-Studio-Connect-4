@@ -58,7 +58,7 @@
             this.btn_Tut.Name = "btn_Tut";
             this.btn_Tut.Size = new System.Drawing.Size(197, 63);
             this.btn_Tut.TabIndex = 1;
-            this.btn_Tut.Text = "How to play";
+            this.btn_Tut.Text = "Rules/How to play";
             this.btn_Tut.UseVisualStyleBackColor = true;
             this.btn_Tut.Click += new System.EventHandler(this.btn_Tut_Click);
             // 

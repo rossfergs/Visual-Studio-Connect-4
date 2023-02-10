@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,19 +13,39 @@ using System.Windows.Forms;
 namespace Game
 {
     public partial class GameBoard : Form
-    {
-        Menu m = new Menu();
-        
+    {   
         Button[,] btn = new Button[8, 7];
         Color player = Color.Red;
+        Color aiColor = Color.Yellow;
+
+        bool twoPlayer = false;
+        Random rnd = new Random();
         int P1Counter = 0;
         int P2Counter = 0;
         String winner = null;
+        public int aiColumn;
+        public int aiPrevMove;
+        public SoundPlayer soundPlayer;
+
         public GameBoard()
         {
             InitializeComponent();
+            aiColumn = rnd.Next(1, 8);
+            aiPrevMove = rnd.Next(1, 3);
             lblP1.Hide();
             lblP2.Hide();
+            string filePath = @"piece.wav";
+            soundPlayer = new SoundPlayer(filePath);
+            checkForTwoPlayer();
+            if(aiPrevMove == 1)
+            {
+                aiPrevMove = 1;
+            }
+            else
+            {
+                aiPrevMove = -1;
+            }
+
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 7; j++)
@@ -39,30 +60,111 @@ namespace Game
             }
         }
 
-        void btnEvent_Handler(object sender, EventArgs e)
-        {          
-            placePiece(btn, ((Button)sender), player);
-            if (player == Color.Red)
+        bool checkForTwoPlayer()
+        {
+            DialogResult d;
+            d = MessageBox.Show("Do you wish to play against AI? Press yes, or press no to play against 2nd player", "Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (d == DialogResult.Yes)
             {
-                lblP2.Hide();
-                player = Color.Yellow;
-                P1Counter++;
-                lblP1.Text = "Red score: " + P1Counter;
-                lblP1.BackColor = Color.Red;
-                lblP1.ForeColor = Color.White;
-                lblP1.Show();
+                twoPlayer = false;
             }
             else
             {
-                lblP1.Hide();
-                player = Color.Red;
-                P2Counter++;
-                lblP2.Text = "Yellow score " + P2Counter;
-                lblP2.BackColor = Color.Yellow;
-                lblP2.ForeColor = Color.Black;
-                lblP2.Show();
+                twoPlayer = true;
+
             }
-            checkForWinner();
+            return twoPlayer;
+        }
+
+        void btnEvent_Handler(object sender, EventArgs e)
+        {          
+            if (twoPlayer == false)
+            {
+                placePiece(btn, ((Button)sender), player);
+                while (btn[aiColumn, 1].BackColor != Color.DimGray)
+                {
+                    aiColumn = rnd.Next(1, 8);
+                }
+                if (player == Color.Red)
+                {
+                    lblP2.Hide();
+                    P1Counter++;
+                    lblP1.Text = "Red score: " + P1Counter;
+                    lblP1.BackColor = Color.Red;
+                    lblP1.ForeColor = Color.White;
+                    lblP1.Show();
+                }
+                P2Counter++;
+                placePiece(btn, btn[aiColumn, 1], aiColor);
+                aiColumn = moveAIColumn(rnd);
+                checkForWinner();
+            }
+            else
+            {
+                placePiece(btn, ((Button)sender), player);
+                if (player == Color.Red)
+                {
+                    lblP2.Hide();
+                    player = Color.Yellow;
+                    P1Counter++;
+                    lblP1.Text = "Red score: " + P1Counter;
+                    lblP1.BackColor = Color.Red;
+                    lblP1.ForeColor = Color.White;
+                    lblP1.Show();
+                }
+                else
+                {
+                    lblP1.Hide();
+                    player = Color.Red;
+                    P2Counter++;
+                    lblP2.Text = "Yellow score " + P2Counter;
+                    lblP2.BackColor = Color.Yellow;
+                    lblP2.ForeColor = Color.Black;
+                    lblP2.Show();
+                }
+                checkForWinner();
+            }
+            soundPlayer.Play();
+        }
+
+        int moveAIColumn(Random rnd)
+        {
+            int move = rnd.Next(1, 5);
+            int result;
+
+            if(aiColumn != 1 && aiColumn != 7)
+            {
+                System.Diagnostics.Debug.Write("PASSED 1");
+                if(move == 1)
+                {
+                    result = aiColumn - aiPrevMove;
+                    aiPrevMove = -aiPrevMove;
+                    return result;
+                }
+                else if(move == 2)
+                {
+                    return aiColumn;
+                }
+                else
+                {
+                    result = aiColumn + aiPrevMove;
+                    return result;
+                }
+            }
+            else
+            {
+                if(aiColumn == 1) {
+                    aiPrevMove = 1;
+                    result = aiColumn + aiPrevMove;
+                    return result;
+                }
+                else
+                {
+                    aiPrevMove = -1;
+                    result = aiColumn + aiPrevMove;
+                    return result;
+                }
+            }
         }
 
         void placePiece(Button[,] btn, Button input, Color player)

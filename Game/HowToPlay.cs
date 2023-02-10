@@ -15,6 +15,8 @@ namespace Game
         public HowToPlay()
         {
             InitializeComponent();
+            DialogResult d;
+            d = MessageBox.Show("Rules: Each player will take turns consecutively. Red will always be first to pick. All tiles will be placed to the lowest empty tile row slot.", "Rules", MessageBoxButtons.OK);
         }
     }
 }
